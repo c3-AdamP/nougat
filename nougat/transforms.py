@@ -10,7 +10,6 @@ import albumentations as alb
 from albumentations.pytorch import ToTensorV2
 import cv2
 import numpy as np
-from timm.data.constants import IMAGENET_DEFAULT_MEAN, IMAGENET_DEFAULT_STD
 
 
 def alb_wrapper(transform):
@@ -158,7 +157,7 @@ train_transform = alb_wrapper(
             alb.ImageCompression(95, p=0.07),
             alb.GaussNoise(20, p=0.08),
             alb.GaussianBlur((3, 3), p=0.03),
-            alb.Normalize(IMAGENET_DEFAULT_MEAN, IMAGENET_DEFAULT_STD),
+            alb.Normalize((0.485, 0.456, 0.406), (0.229, 0.224, 0.225)),
             ToTensorV2(),
         ]
     )
@@ -166,7 +165,7 @@ train_transform = alb_wrapper(
 test_transform = alb_wrapper(
     alb.Compose(
         [
-            alb.Normalize(IMAGENET_DEFAULT_MEAN, IMAGENET_DEFAULT_STD),
+            alb.Normalize((0.485, 0.456, 0.406), (0.229, 0.224, 0.225)),
             ToTensorV2(),
         ]
     )
